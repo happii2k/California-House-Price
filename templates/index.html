@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>House Price Predictor</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="container hero__inner">
+        <div class="hero__content">
+          <h1>House Price Predictor</h1>
+          <p class="hero__subtitle">
+            Enter neighborhood and household features to estimate the median
+            house price (modeled on California housing data).
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <main class="container main">
+      <section class="card">
+        <div class="card__body">
+          <h2 class="section-title">Enter Property & Neighborhood Details</h2>
+          <form id="predictForm" action="/predict" method="POST" novalidate>
+            <div class="form-grid">
+              <!-- MedInc -->
+              <div class="form-group" data-field>
+                <div class="label-row" aria-live="polite">
+                  <label for="MedInc" class="form-label">Median Income</label>
+                  <button type="button" class="info-icon" aria-label="Median household income in tens of thousands of dollars (e.g., 5.5 means $55,000).">i</button>
+                  <span class="tooltip" role="tooltip">Median household income in tens of thousands of dollars (e.g., 5.5 means $55,000).</span>
+                </div>
+                <input
+                  id="MedInc"
+                  name="MedInc"
+                  type="number"
+                  step="0.1"
+                  min="0"
+                  required
+                  class="form-control"
+                  placeholder="5.5"
+                  inputmode="decimal"
+                  aria-describedby="MedInc_desc"
+                />
+                <small id="MedInc_desc" class="help-text">Median income in tens of thousands of dollars.</small>
+                <div class="error-message" aria-live="polite"></div>
+              </div>
+
+              <!-- HouseAge -->
+              <div class="form-group" data-field>
+                <div class="label-row">
+                  <label for="HouseAge" class="form-label">House Age</label>
+                  <button type="button" class="info-icon" aria-label="Median age of houses in the block group, in years.">i</button>
+                  <span class="tooltip" role="tooltip">Median age of houses in the block group, in years.</span>
+                </div>
+                <input
+                  id="HouseAge"
+                  name="HouseAge"
+                  type="number"
+                  step="1"
+                  min="0"
+                  required
+                  class="form-control"
+                  placeholder="10"
+                  inputmode="numeric"
+                  aria-describedby="HouseAge_desc"
+                />
+                <small id="HouseAge_desc" class="help-text">Median house age in years.</small>
+                <div class="error-message" aria-live="polite"></div>
+              </div>
+
+              <!-- AveRooms -->
+              <div class="form-group" data-field>
+                <div class="label-row">
+                  <label for="AveRooms" class="form-label">Average Rooms</label>
+                  <button type="button" class="info-icon" aria-label="Average number of rooms per household in the block group.">i</button>
+                  <span class="tooltip" role="tooltip">Average number of rooms per household in the block group.</span>
+                </div>
+                <input
+                  id="AveRooms"
+                  name="AveRooms"
+                  type="number"
+                  step="0.1"
+                  min="0"
+                  required
+                  class="form-control"
+                  placeholder="6.2"
+                  inputmode="decimal"
+                  aria-describedby="AveRooms_desc"
+                />
+                <small id="AveRooms_desc" class="help-text">Average number of rooms per household.</small>
+                <div class="error-message" aria-live="polite"></div>
+              </div>
+
+              <!-- AveBedrms -->
+              <div class="form-group" data-field>
+                <div class="label-row">
+                  <label for="AveBedrms" class="form-label">Average Bedrooms</label>
+                  <button type="button" class="info-icon" aria-label="Average number of bedrooms per household in the block group.">i</button>
+                  <span class="tooltip" role="tooltip">Average number of bedrooms per household in the block group.</span>
+                </div>
+                <input
+                  id="AveBedrms"
+                  name="AveBedrms"
+                  type="number"
+                  step="0.1"
+                  min="0"
+                  required
+                  class="form-control"
+                  placeholder="1.1"
+                  inputmode="decimal"
+                  aria-describedby="AveBedrms_desc"
+                />
+                <small id="AveBedrms_desc" class="help-text">Average number of bedrooms per household.</small>
+                <div class="error-message" aria-live="polite"></div>
+              </div>
+
+              <!-- AveOccup -->
+              <div class="form-group" data-field>
+                <div class="label-row">
+                  <label for="AveOccup" class="form-label">Average Occupancy</label>
+                  <button type="button" class="info-icon" aria-label="Average number of occupants per household in the block group.">i</button>
+                  <span class="tooltip" role="tooltip">Average number of occupants per household in the block group.</span>
+                </div>
+                <input
+                  id="AveOccup"
+                  name="AveOccup"
+                  type="number"
+                  step="0.1"
+                  min="0"
+                  required
+                  class="form-control"
+                  placeholder="3.2"
+                  inputmode="decimal"
+                  aria-describedby="AveOccup_desc"
+                />
+                <small id="AveOccup_desc" class="help-text">Average number of occupants per household.</small>
+                <div class="error-message" aria-live="polite"></div>
+              </div>
+
+              <!-- Latitude -->
+              <div class="form-group" data-field>
+                <div class="label-row">
+                  <label for="Latitude" class="form-label">Latitude</label>
+                  <button type="button" class="info-icon" aria-label="Geographic latitude coordinate of the block group.">i</button>
+                  <span class="tooltip" role="tooltip">Geographic latitude coordinate of the block group.</span>
+                </div>
+                <input
+                  id="Latitude"
+                  name="Latitude"
+                  type="number"
+                  step="0.01"
+                  min="-90"
+                  max="90"
+                  required
+                  class="form-control"
+                  placeholder="34.05"
+                  inputmode="decimal"
+                  aria-describedby="Latitude_desc"
+                />
+                <small id="Latitude_desc" class="help-text">Latitude coordinate (−90 to 90).</small>
+                <div class="error-message" aria-live="polite"></div>
+              </div>
+
+              <!-- Longitude -->
+              <div class="form-group" data-field>
+                <div class="label-row">
+                  <label for="Longitude" class="form-label">Longitude</label>
+                  <button type="button" class="info-icon" aria-label="Geographic longitude coordinate of the block group.">i</button>
+                  <span class="tooltip" role="tooltip">Geographic longitude coordinate of the block group.</span>
+                </div>
+                <input
+                  id="Longitude"
+                  name="Longitude"
+                  type="number"
+                  step="0.01"
+                  min="-180"
+                  max="180"
+                  required
+                  class="form-control"
+                  placeholder="-118.25"
+                  inputmode="decimal"
+                  aria-describedby="Longitude_desc"
+                />
+                <small id="Longitude_desc" class="help-text">Longitude coordinate (−180 to 180).</small>
+                <div class="error-message" aria-live="polite"></div>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button id="submitBtn" class="btn btn--primary" type="submit">
+                <span class="btn-label">Predict Price</span>
+                <span class="spinner hidden" aria-hidden="true"></span>
+              </button>
+              <button id="resetBtn" class="btn btn--secondary" type="button">Reset Form</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section id="resultsCard" class="card hidden" aria-live="polite">
+        <div class="card__body">
+          <h3 class="section-title">Prediction Result</h3>
+          <div id="resultStatus" class="status status--info mb-8">Awaiting input</div>
+          <p id="resultText" class="result-text"></p>
+          <p id="errorText" class="error-text hidden"></p>
+        </div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
